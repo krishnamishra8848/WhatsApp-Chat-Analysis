@@ -7,6 +7,7 @@ import plotly.express as px
 from collections import Counter
 from wordcloud import WordCloud
 import emoji
+import time
 
 # Function to parse WhatsApp chat
 def parse_chat(data):
@@ -88,9 +89,24 @@ def main():
     st.title('📊 WhatsApp Chat Analyzer 📊')
     st.write("Analyze your WhatsApp chat and get statistics on total messages, words, media, and links shared.")
 
+    # Placeholder for loading message
+    loading_placeholder = st.empty()
+
     uploaded_file = st.file_uploader("📁 Upload your WhatsApp chat (.txt file)", type="txt")
 
     if uploaded_file is not None:
+         # Show loading message and timer
+        loading_placeholder.markdown("<h2 style='text-align: center;'>Waking up... Please wait!</h2>", unsafe_allow_html=True)
+        timer_placeholder = loading_placeholder.empty()  # Create another placeholder for the timer
+
+        # Set a timer for 5 seconds (adjust as needed)
+        for i in range(5, 0, -1):
+            timer_placeholder.markdown(f"<h3 style='text-align: center;'>App will be ready in {i} seconds...</h3>", unsafe_allow_html=True)
+            time.sleep(1)  # Wait for 1 second
+
+        # Clear the loading message
+        loading_placeholder.empty()
+
         stringio = StringIO(uploaded_file.getvalue().decode("utf-8"))
         chat_data = stringio.read()
 
